@@ -187,6 +187,21 @@ const Keyboard = {
         this.eventHandlers[handlerName](this.properties.value);
         }
     },
+
+    //CAPS LOCK TOGGLE
+
+    toggleCapsLock(){
+        //turn the capsLock property from false to true
+        this.properties.capsLock = !this.properties.capsLock;
+        for (const key of this.elements.keys) {
+            if (key.childElementCount === 0) {
+                //if the caps lock is toggled on uppercase the text content, if it's not lowercase it.
+            key.textContent = this.properties.capsLock
+                ? key.textContent.toUpperCase()
+                : key.textContent.toLowerCase();
+            }
+        }
+    },
     open() {
 
     },
