@@ -15,6 +15,9 @@ const Keyboard = {
         values: "", 
         capsLock: false
     },
+
+    //INIT CREATES AND APPENDS THE NEW ELEMENTS
+
     init() {
         //create the div elements that will house the keys
         this.elements.main = document.createElement("div");
@@ -35,18 +38,149 @@ const Keyboard = {
         document.body.appendChild(this.elements.main);
 
         //use the virtual keyboard on elements that have the class use-keyboard-input
-          document .querySelectorAll(".use-keyboard-input")
+        document .querySelectorAll(".use-keyboard-input")
             .forEach((element) => {
-              element.addEventListener("focus", () => {
+            element.addEventListener("focus", () => {
                 this.open(element.value, (currentValue) => {
-                  element.value = currentValue;
+                element.value = currentValue;
                 });
-              });
+            });
             });
     },
-    createBtnKeys() {
 
-    },
+    // CREATE THE KEY BUTTONS
+
+    createBtnKeys() {
+        //create a fragment that will house all the new key buttons
+        const fragment = document.createDocumentFragment();
+
+        // the layout of the keys
+        const keyLayout = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace", "q", "w", "e","r", "t", "y", "u", "i", "o","p", "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter", "done", "z", "x", "c", "v", "b","n","m",",",".","?", "space", ];
+
+        //function to generate icons for the buttons that need them.
+        const createIcon = (iconName) => {
+            return `<i class = "fa-${iconName}"></i>`
+        };
+
+        // a forEach statement that will go through the keyLayout array and create buttons for them
+        keyLayout.forEach((key) => {
+        const keyElement = document.createElement("button");
+
+        //the buttons backspace, p, enter, and ? should be the last on their line
+        const insertLineBreak =["backspace", "p", "enter", "?"].indexO(key) !== -1;
+
+        // add classes and attributed to those buttons
+        keyElement.setAttribute("type", "button");
+        keyElement.classList.add("individualKey");
+
+          // a switch statement to handle the different kind of buttons
+            switch (key) {
+            case "backspace":
+                //this button will be wider than the regular buttons so it needs a wide class
+                keyElement.classList.add("individualKey-wide");
+                //the icon that will be on the button
+                keyElement.innerHTML = createIcon("");
+                //if the button is clicked
+                keyElement.addEventListener("click", () => {
+                  //remove the previous input
+                this.properties.value = this.properties.value.substring(
+                    0,
+                    this.properties.value.length - 1
+                );
+                  //and trigger an input event handler
+                this.handleEvent("oninput");
+                });
+                break;
+
+            case "caps":
+                //a class that shows the button will be wide and have an activatable property.
+                keyElement.classList.add( "individualKey-wide","individualKey-activatable" );
+                //create the needed icon
+                keyElement.innerHTML = createIcon("");
+                //if clicked
+                keyElement.addEventListener("click", () => {
+                  //activate the function that toggles the capsLock
+                this.toggleCapsLock();
+                  //toggle the class individualKey-active on the capsLock property
+                keyElement.classList.toggle(
+                    "individualKey-active",
+                    this.properties.capsLock
+                );
+                });
+                break;
+
+            case "enter":
+                //class that shows this button will be wide
+                keyElement.classList.add("individualKey-wide");
+                //create the needed icon
+                keyElement.innerHTML = createIcon("");
+                //if clicked
+                keyElement.addEventListener("click", () => {
+                  //start a new line from the last value
+                this.properties.value += "\n";
+                  //run the input event handler
+                this.handleEvent("oninput");
+                });
+                break;
+
+            case "space":
+                //this button will be extra wide
+                keyElement.classList.add("individualKey-x-wide");
+                //create the needed icon
+                keyElement.innerHTML = createIcon("");
+                //if clicked
+                keyElement.addEventListener("click", () => {
+                  //add a blank space
+                this.properties.value += " ";
+                  //run the input event handler
+                this.handleEvent("oninput");
+                });
+                break;
+
+            case "done":
+                //this element will be wide and also dark
+                keyElement.classList.add( "individualKey-wide", "individualKey-dark" );
+                //create the needed icon
+                keyElement.innerHTML = createIcon("");
+                //if clicked
+                keyElement.addEventListener("click", () => {
+                  //run the close function
+                this.close();
+                  //run the close event handler
+                this.handleEvent("onclose");
+                });
+                break;
+
+                default:
+                //make the text lowercase by default
+                keyElement.textContent = key.toLowerCase();
+                //if clicked
+                keyElement.addEventListener("click", () => {
+                    //the value of the button checks the capslock property.
+                this.properties.value += this.properties.capsLock
+                  //if it's true, make the key uppercase
+                    ? key.toUpperCase()
+                    //if false make the key lowercase
+                    : key.toLowerCase();
+                    //run the input event handler
+                this.handleEvent("oninput");
+                });
+                break;
+                }
+            //append the keys to the fragment
+            fragment.appendChild(keyElement);
+
+            //if the button includes a line break from being the last on its row, return <br> to make a new line
+            if (insertLineBreak) {
+                fragment.appendChild(document.createElement("br"));
+                    }
+                });
+
+                return fragment
+        },
+
+    //HANDLING EVENTS
+    
     handleEvent(handlerName) {
 
     },
