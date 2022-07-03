@@ -53,6 +53,8 @@ table {
 }
 .title{
     color:white;
+    font-size:2rem;
+    text-align:center;
 }
 .main{
 display:flex;
@@ -60,9 +62,12 @@ align-items:center;
 justify-content:center;
 }
 textarea{
-    width:80%;
+    width:50%;
     height:30vh;
     margin:3% 0;
+}
+.hidden-keyboard{
+    display:none;
 }
 .keyboard{
 	margin:auto;

@@ -206,7 +206,7 @@ const Keyboard = {
 
     //WHEN THE KEYBOARD OPENS
 
-    open() {
+    open(initialValue, oninput, onclose) {
      //set the value of the property of initial value or an empty string
     this.properties.values = initialValue || "";
     this.eventHandlers.oninput = oninput;
