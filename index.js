@@ -180,9 +180,12 @@ const Keyboard = {
         },
 
     //HANDLING EVENTS
-    
-    handleEvent(handlerName) {
 
+    handleEvent(handlerName) {
+    //if the type of event handler is equal to a function, then set it as the properties value; 
+    if (typeof this.eventHandlers[handlerName] == "function") {
+        this.eventHandlers[handlerName](this.properties.value);
+        }
     },
     open() {
 
