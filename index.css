@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+    background-color:black;
 }
 ol, ul {
 	list-style: none;
@@ -46,3 +47,73 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 } 
+.page-header{
+	display:flex;
+	flex-direction:column;
+}
+.title{
+    color:white;
+}
+.main{
+display:flex;
+align-items:center;
+justify-content:center;
+}
+textarea{
+    width:80%;
+    height:30vh;
+    margin:3% 0;
+}
+.keyboard{
+	margin:auto;
+    width:80%;
+    padding:10px;
+    background: linear-gradient(180deg, #FE0000 16.66%,
+		#FD8C00 16.66%, 33.32%,
+		#FFE500 33.32%, 49.98%,
+		#119F0B 49.98%, 66.64%,
+		#0644B3 66.64%, 83.3%,
+		#C22EDC 83.3%);
+    box-shadow:0 0 50px rgba(0, 0, 0, 0.5);
+    user-select:none;
+	border-radius:10px;
+    position:sticky;
+}
+.keyboard-keys{
+    text-align:center;
+}
+.individualKey{
+    height:48px;
+    width:7%;
+    max-width:90px;
+    margin:3px;
+    border-radius:4px;
+    border:none;
+    background:rgba(255, 255, 255, 0.60);
+    color:black;
+	font-weight:900;
+    font-size:1.05rem;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    vertical-align:top;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+    position:relative;
+}
+.individualKey:active{
+    background:rgba(255, 255, 255, 0.22);
+	color:white;
+}
+.individualKey:hover{
+	transform: scale(1.1);
+    border:1px solid black;
+}
+.individualKey-wide{
+    width:12%;
+}
+.individualKey-x-wide{
+    width:36%;
+    max-width:500px;
+}

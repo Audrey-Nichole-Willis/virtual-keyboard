@@ -1,3 +1,4 @@
+
 const Keyboard = {
    //the elements that we need to create are the main div, the keys container, and an array of keys.
     elements:{
