@@ -31,7 +31,7 @@ const Keyboard = {
         this.elements.keysContainer.appendChild(this.createBtnKeys());
 
         //the keys are  all of the elements within the keysContainer with the class of keyboard-key
-        this.elements.keys = this.elements.keysContainer.querySelectorAll("keyboard-key");
+        this.elements.keys = this.elements.keysContainer.querySelectorAll("individualKey");
 
         //append elements  to the DOM
         this.elements.main.appendChild(this.elements.keysContainer);
@@ -41,8 +41,8 @@ const Keyboard = {
         document .querySelectorAll(".use-keyboard-input")
             .forEach((element) => {
             element.addEventListener("focus", () => {
-                this.open(element.value, (currentValue) => {
-                element.value = currentValue;
+                this.open(element.values, (currentValue) => {
+                element.values = currentValue;
                 });
             });
             });
@@ -67,7 +67,7 @@ const Keyboard = {
         const keyElement = document.createElement("button");
 
         //the buttons backspace, p, enter, and ? should be the last on their line
-        const insertLineBreak =["backspace", "p", "enter", "?"].indexO(key) !== -1;
+        const insertLineBreak =["backspace", "p", "enter", "?"].indexOf(key)  !== -1;
 
         // add classes and attributed to those buttons
         keyElement.setAttribute("type", "button");
@@ -83,9 +83,9 @@ const Keyboard = {
                 //if the button is clicked
                 keyElement.addEventListener("click", () => {
                   //remove the previous input
-                this.properties.value = this.properties.value.substring(
+                this.properties.values = this.properties.values.substring(
                     0,
-                    this.properties.value.length - 1
+                    this.properties.values.length - 1
                 );
                   //and trigger an input event handler
                 this.handleEvent("oninput");
@@ -117,7 +117,7 @@ const Keyboard = {
                 //if clicked
                 keyElement.addEventListener("click", () => {
                   //start a new line from the last value
-                this.properties.value += "\n";
+                this.properties.values += "\n";
                   //run the input event handler
                 this.handleEvent("oninput");
                 });
@@ -131,7 +131,7 @@ const Keyboard = {
                 //if clicked
                 keyElement.addEventListener("click", () => {
                   //add a blank space
-                this.properties.value += " ";
+                this.properties.values += " ";
                   //run the input event handler
                 this.handleEvent("oninput");
                 });
@@ -157,7 +157,7 @@ const Keyboard = {
                 //if clicked
                 keyElement.addEventListener("click", () => {
                     //the value of the button checks the capslock property.
-                this.properties.value += this.properties.capsLock
+                this.properties.values += this.properties.capsLock
                   //if it's true, make the key uppercase
                     ? key.toUpperCase()
                     //if false make the key lowercase
@@ -184,7 +184,7 @@ const Keyboard = {
     handleEvent(handlerName) {
     //if the type of event handler is equal to a function, then set it as the properties value; 
     if (typeof this.eventHandlers[handlerName] == "function") {
-        this.eventHandlers[handlerName](this.properties.value);
+        this.eventHandlers[handlerName](this.properties.values);
         }
     },
 
@@ -206,8 +206,8 @@ const Keyboard = {
     //WHEN THE KEYBOARD OPENS
 
     open() {
-        //set the value of the property of initial value or an empty string
-    this.properties.value = initialValue || "";
+     //set the value of the property of initial value or an empty string
+    this.properties.values = initialValue || "";
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
     //remove the class that hides the keyboard
@@ -217,7 +217,7 @@ const Keyboard = {
     //WHEN THE KEYBOARD CLOSES
 
     close() {
-        this.properties.value = "";
+        this.properties.values = "";
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.add("hidden-keyboard");
