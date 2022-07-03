@@ -202,13 +202,27 @@ const Keyboard = {
             }
         }
     },
+
+    //WHEN THE KEYBOARD OPENS
+
     open() {
-
+        //set the value of the property of initial value or an empty string
+    this.properties.value = initialValue || "";
+    this.eventHandlers.oninput = oninput;
+    this.eventHandlers.onclose = onclose;
+    //remove the class that hides the keyboard
+    this.elements.main.classList.remove("hidden-keyboard");
     },
-    close() {
 
+    //WHEN THE KEYBOARD CLOSES
+
+    close() {
+        this.properties.value = "";
+        this.eventHandlers.oninput = oninput;
+        this.eventHandlers.onclose = onclose;
+        this.elements.main.classList.add("hidden-keyboard");
     }
 };
 window.addEventListener("DOMContentLoaded", function () {
-  Keyboard.init();
+    Keyboard.init();
 });
