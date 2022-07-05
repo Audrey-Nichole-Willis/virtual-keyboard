@@ -1,229 +1,218 @@
-
 const Keyboard = {
-   //the elements that we need to create are the main div, the keys container, and an array of keys.
-    elements:{
+
+//SETUP
+
+    //The new elements that have to be created with js
+    elements: {
         main: null,
         keysContainer: null,
         keys: [],
     },
-    //the types of events that will be handled are input and close events.
+    //the events that will be handled throughout the keyboard object
     eventHandlers: {
         oninput: null,
-        onclose: null
+        onclose: null,
     },
-    //the properties of the keys will be:
+    //this will be the properties of the created key buttons
     properties: {
-        values: "", 
-        capsLock: false
+        value: "",
+        capsLock: false,
     },
 
-    //INIT CREATES AND APPENDS THE NEW ELEMENTS
+    //CREATE AND INITIALIZE THE NEEDED ELEMENTS AND SET THE VIRTUAL KEYBOARD AS DEFAULT FOR CERTAIN ELEMENTS
 
     init() {
-        //create the div elements that will house the keys
+    // Create main elements
         this.elements.main = document.createElement("div");
         this.elements.keysContainer = document.createElement("div");
 
-        //add classes to newly created elements
+    // Add classes to those new elements
         this.elements.main.classList.add("keyboard", "hidden-keyboard");
         this.elements.keysContainer.classList.add("keyboard-keys");
 
-        //append the future rendered  keys to the key container
+    //Append the buttons that will be created with the createBtnKeys function to the keysContainer
         this.elements.keysContainer.appendChild(this.createBtnKeys());
 
-        //the keys are  all of the elements within the keysContainer with the class of keyboard-key
-        this.elements.keys = this.elements.keysContainer.querySelectorAll("individualKey");
+    //The keys element will be equal to all the elements within the keysContainer with the class individualKey
+        this.elements.keys =this.elements.keysContainer.querySelectorAll(".individualKey");
 
-        //append elements  to the DOM
+    // Append newly created elements to the DOM
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
 
-        //use the virtual keyboard on elements that have the class use-keyboard-input
-        document .querySelectorAll(".use-keyboard-input")
-            .forEach((element) => {
+    // Use the virtual keyboard when giving input to an element with the class use-keyboard-input
+        document.querySelectorAll(".use-keyboard-input").forEach((element) => {
             element.addEventListener("focus", () => {
-                this.open(element.values, (currentValue) => {
-                element.values = currentValue;
-                });
-            });
-            });
+            this.open(element.value, (currentValue) => {
+            element.value = currentValue;
+        });
+        });
+    });
     },
 
-    // CREATE THE KEY BUTTONS
+    //THE FUNCTION TO CREATE AND APPEND THE NEWLY CREATED BUTTON KEYS AND ADD THE INDIVIDUAL BUTTON LOGIC
 
     createBtnKeys() {
-        //create a fragment that will house all the new key buttons
+    //Create a document fragment to hold the new keys
         const fragment = document.createDocumentFragment();
-
-        // the layout of the keys
-        const keyLayout = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace", "q", "w", "e","r", "t", "y", "u", "i", "o","p", "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter", "done", "z", "x", "c", "v", "b","n","m",",",".","?", "space", ];
-
-        //function to generate icons for the buttons that need them.
+    //an array with the keyLayout that we can loop through
+        const keyLayout = ["1","2","3","4","5","6","7","8","9","0", "backspace",
+    "q", "w","e","r","t","y","u","i","o","p","caps","a","s","d","f","g","h", "j",
+    "k","l","enter","done","z", "x","c","v","b", "n","m",",",".","?", "space",
+    ];
+     //A function that renders different icons needed for the special buttons
         const createIcon = (iconName) => {
-            return `<i class = "fa-${iconName}"></i>`
+            return `<i class = "fa-${iconName}"></i>`;
         };
 
-        // a forEach statement that will go through the keyLayout array and create buttons for them
+        //A forEach statement that loops through the keyLayout array. For each key: ...
         keyLayout.forEach((key) => {
-        const keyElement = document.createElement("button");
+         //create a new button element
+            const keyElement = document.createElement("button");
+         //insert line breaks for the these specific buttons located at the end of each line of keys.
+            const insertLineBreak =["backspace", "p", "enter", "?"].indexOf(key) !== -1;
+         // Add the attributes and classes for the new buttons
+            keyElement.setAttribute("type", "button");
+            keyElement.classList.add("individualKey");
 
-        //the buttons backspace, p, enter, and ? should be the last on their line
-        const insertLineBreak =["backspace", "p", "enter", "?"].indexOf(key)  !== -1;
-
-        // add classes and attributed to those buttons
-        keyElement.setAttribute("type", "button");
-        keyElement.classList.add("individualKey");
-
-          // a switch statement to handle the different kind of buttons
-            switch (key) {
-            case "backspace":
-                //this button will be wider than the regular buttons so it needs a wide class
-                keyElement.classList.add("individualKey-wide");
-                //the icon that will be on the button
-                keyElement.innerHTML = createIcon("");
-                //if the button is clicked
-                keyElement.addEventListener("click", () => {
-                  //remove the previous input
-                this.properties.values = this.properties.values.substring(
-                    0,
-                    this.properties.values.length - 1
-                );
-                  //and trigger an input event handler
+        //A switch statement to handle the logic for the special buttons
+        switch (key) {
+        case "backspace":
+            //The backspace button will be wider and needs a class to express that as well as an icon
+            keyElement.classList.add("individualKey-wide");
+            keyElement.innerHTML = createIcon("");
+            //When clicked the backspace button will
+            keyElement.addEventListener("click", () => {
+            //Remove the last input
+                this.properties.value = this.properties.value.substring(0,this.properties.value.length - 1);
+            //Run the function to handle events, this one is an input event.
                 this.handleEvent("oninput");
-                });
-                break;
+            });
+            break;
 
             case "caps":
-                //a class that shows the button will be wide and have an activatable property.
-                keyElement.classList.add( "individualKey-wide","individualKey-activatable" );
-                //create the needed icon
+            // The caps  button will be wider and have styles that appear only on activation and needs classes to express that as well as an icon
+                keyElement.classList.add( "individualKey-wide", "individualKey-activatable");
                 keyElement.innerHTML = createIcon("");
-                //if clicked
+             //When the caps button is clicked: ..
                 keyElement.addEventListener("click", () => {
-                  //activate the function that toggles the capsLock
+            //run the togglesCapsLock function
                 this.toggleCapsLock();
-                  //toggle the class individualKey-active on the capsLock property
-                keyElement.classList.toggle(
-                    "individualKey-active",
-                    this.properties.capsLock
-                );
-                });
-                break;
+            //toggle the active class on the caps button and change the capsLock boolean
+                keyElement.classList.toggle( "individualKey-active",this.properties.capsLock );
+            });
+            break;
 
             case "enter":
-                //class that shows this button will be wide
+            //The enter button will be wide and needs a class to show that as well as an icon.
                 keyElement.classList.add("individualKey-wide");
-                //create the needed icon
                 keyElement.innerHTML = createIcon("");
-                //if clicked
+            //if enter is clicked..
                 keyElement.addEventListener("click", () => {
-                  //start a new line from the last value
-                this.properties.values += "\n";
-                  //run the input event handler
-                this.handleEvent("oninput");
-                });
-                break;
+                // start a new line after the last input
+                    this.properties.value += "\n";
+              //Run function that handles events, this one is an input event
+                    this.handleEvent("oninput");
+            });
+            break;
 
             case "space":
-                //this button will be extra wide
+            //the space button will be EXTRA wide. it needs a class to show this as well as an icon
                 keyElement.classList.add("individualKey-x-wide");
-                //create the needed icon
                 keyElement.innerHTML = createIcon("");
-                //if clicked
+            //if clicked the space button will...
                 keyElement.addEventListener("click", () => {
-                  //add a blank space
-                this.properties.values += " ";
-                  //run the input event handler
+            //Add an empty space after the last input
+                this.properties.value += " ";
+              //run the function that handles events. this is an input event.
                 this.handleEvent("oninput");
-                });
-                break;
+            });
+            break;
 
             case "done":
-                //this element will be wide and also dark
-                keyElement.classList.add( "individualKey-wide", "individualKey-dark" );
-                //create the needed icon
+            //The done button will be wide and dark and needs classes to show this, as well as an icon
+                keyElement.classList.add( "individualKey-wide","individualKey-dark");
                 keyElement.innerHTML = createIcon("");
-                //if clicked
+            //If clicked the done button will...
                 keyElement.addEventListener("click", () => {
-                  //run the close function
-                this.close();
-                  //run the close event handler
-                this.handleEvent("onclose");
-                });
-                break;
+             //Run the function that closes our keyboard
+                    this.close();
+            //Run the function that handles events. This is our only close event.
+                    this.handleEvent("onclose");
+            });
+            break;
 
-                default:
-                //make the text lowercase by default
+            default:
+            //If the button is not one of these special buttons, have the text set to lowercase on default
                 keyElement.textContent = key.toLowerCase();
-                //if clicked
+            //If clicked a regular button will...
                 keyElement.addEventListener("click", () => {
-                    //the value of the button checks the capslock property.
-                this.properties.values += this.properties.capsLock
-                  //if it's true, make the key uppercase
+            //Uppercase text if capsLock is true and lowercase text if it's false
+                this.properties.value += this.properties.capsLock
                     ? key.toUpperCase()
-                    //if false make the key lowercase
                     : key.toLowerCase();
-                    //run the input event handler
+             //Run function that handles events, this event is an input event
                 this.handleEvent("oninput");
-                });
-                break;
-                }
-            //append the keys to the fragment
-            fragment.appendChild(keyElement);
+            });
+            break;
+        }
+        //Append the keys onto the fragment
+        fragment.appendChild(keyElement);
 
-            //if the button includes a line break from being the last on its row, return <br> to make a new line
-            if (insertLineBreak) {
-                fragment.appendChild(document.createElement("br"));
-                    }
-                });
+        //If the button is one that needs a line break, add a br to the fragment
+        if (insertLineBreak) {
+        fragment.appendChild(document.createElement("br"));
+        }
+    });
+        //The fragment now holding the button is returned and the init function earlier up in the object will render it.
+    return fragment;
+    },
 
-                return fragment
-        },
-
-    //HANDLING EVENTS
+//EVENT HANDLER FUNCTION
 
     handleEvent(handlerName) {
-    //if the type of event handler is equal to a function, then set it as the properties value; 
-    if (typeof this.eventHandlers[handlerName] == "function") {
-        this.eventHandlers[handlerName](this.properties.values);
-        }
-    },
-
-    //CAPS LOCK TOGGLE
-
-    toggleCapsLock(){
-        //turn the capsLock property from false to true
-        this.properties.capsLock = !this.properties.capsLock;
-        for (const key of this.elements.keys) {
-            if (key.childElementCount === 0) {
-                //if the caps lock is toggled on uppercase the text content, if it's not lowercase it.
-            key.textContent = this.properties.capsLock
-                ? key.textContent.toUpperCase()
-                : key.textContent.toLowerCase();
+    //If the event handler name is a function...
+        if (typeof this.eventHandlers[handlerName] == "function") {
+    //update the value of the button property
+            this.eventHandlers[handlerName](this.properties.value);
             }
-        }
     },
 
-    //WHEN THE KEYBOARD OPENS
+//TOGGLE CAPSLOCK FUNCTION
+
+    toggleCapsLock() {
+        //Change the value of capsLock to the opposite
+        this.properties.capsLock = !this.properties.capsLock;
+            for (const key of this.elements.keys) {
+                //the the key from keys child element count is 0
+                if (key.childElementCount === 0) {
+                    //change the text content to uppercase if capLock is true and keep it lowercase if it's false
+                    key.textContent = this.properties.capsLock
+                    ? key.textContent.toUpperCase()
+                    : key.textContent.toLowerCase();
+                }
+            }
+    },
+
+    //FUNCTION FOR WHEN THE KEYBOARD OPENS
 
     open(initialValue, oninput, onclose) {
-     //set the value of the property of initial value or an empty string
-    this.properties.values = initialValue || "";
-    this.eventHandlers.oninput = oninput;
-    this.eventHandlers.onclose = onclose;
-    //remove the class that hides the keyboard
-    this.elements.main.classList.remove("hidden-keyboard");
+        this.properties.value = initialValue || "";
+        this.eventHandlers.oninput = oninput;
+        this.eventHandlers.onclose = onclose;
+        this.elements.main.classList.remove("hidden-keyboard");
     },
 
-    //WHEN THE KEYBOARD CLOSES
+    //FUNCTION FOR WHEN THE KEYBOARD CLOSES
 
     close() {
-        this.properties.values = "";
+        this.properties.value = "";
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.add("hidden-keyboard");
-    }
+    },
 };
+
 window.addEventListener("DOMContentLoaded", function () {
     Keyboard.init();
 });
