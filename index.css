@@ -107,6 +107,25 @@ textarea{
     -webkit-tap-highlight-color:transparent;
     position:relative;
 }
+.individualKey-activatable::after{
+    content:"";
+    top:10px;
+    right:10px;
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:rgba(0, 0, 0, 0.4);
+    border-radius:50%;
+}
+.individualKey-dark{
+    background:#333;
+    color:#FFE500;
+    border:2px black solid;
+    opacity:70%;
+}
+.individualKey-active::after{
+    background:black;
+}
 .individualKey:active{
     background:rgba(255, 255, 255, 0.22);
 	color:white;

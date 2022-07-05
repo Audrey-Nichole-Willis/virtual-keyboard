@@ -62,7 +62,7 @@ const Keyboard = {
     ];
      //A function that renders different icons needed for the special buttons
         const createIcon = (iconName) => {
-            return `<i class = "fa-${iconName}"></i>`;
+            return `<i class = "fa-solid fa-${iconName}"></i>`;
         };
 
         //A forEach statement that loops through the keyLayout array. For each key: ...
@@ -80,7 +80,7 @@ const Keyboard = {
         case "backspace":
             //The backspace button will be wider and needs a class to express that as well as an icon
             keyElement.classList.add("individualKey-wide");
-            keyElement.innerHTML = createIcon("");
+            keyElement.innerHTML = createIcon("arrow-left-long");
             //When clicked the backspace button will
             keyElement.addEventListener("click", () => {
             //Remove the last input
@@ -93,7 +93,7 @@ const Keyboard = {
             case "caps":
             // The caps  button will be wider and have styles that appear only on activation and needs classes to express that as well as an icon
                 keyElement.classList.add( "individualKey-wide", "individualKey-activatable");
-                keyElement.innerHTML = createIcon("");
+                keyElement.innerHTML = createIcon("lock");
              //When the caps button is clicked: ..
                 keyElement.addEventListener("click", () => {
             //run the togglesCapsLock function
@@ -106,7 +106,7 @@ const Keyboard = {
             case "enter":
             //The enter button will be wide and needs a class to show that as well as an icon.
                 keyElement.classList.add("individualKey-wide");
-                keyElement.innerHTML = createIcon("");
+                keyElement.innerHTML = createIcon("right-to-bracket");
             //if enter is clicked..
                 keyElement.addEventListener("click", () => {
                 // start a new line after the last input
@@ -119,7 +119,7 @@ const Keyboard = {
             case "space":
             //the space button will be EXTRA wide. it needs a class to show this as well as an icon
                 keyElement.classList.add("individualKey-x-wide");
-                keyElement.innerHTML = createIcon("");
+                keyElement.innerHTML = createIcon("arrow-right-long");
             //if clicked the space button will...
                 keyElement.addEventListener("click", () => {
             //Add an empty space after the last input
@@ -132,7 +132,7 @@ const Keyboard = {
             case "done":
             //The done button will be wide and dark and needs classes to show this, as well as an icon
                 keyElement.classList.add( "individualKey-wide","individualKey-dark");
-                keyElement.innerHTML = createIcon("");
+                keyElement.innerHTML = createIcon("circle-check");
             //If clicked the done button will...
                 keyElement.addEventListener("click", () => {
              //Run the function that closes our keyboard
