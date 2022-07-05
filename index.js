@@ -27,12 +27,21 @@ const Keyboard = {
         this.elements.keysContainer = document.createElement("div");
 
     // Add classes to those new elements
-        this.elements.main.classList.add("keyboard", "hidden-keyboard");
-        this.elements.keysContainer.classList.add("keyboard-keys");
+        this.elements.main.classList.add(
+          "keyboard",
+          "hidden-keyboard",
+          "animate__animated",
+          "animate__zoomIn"
+        );
+        this.elements.keysContainer.classList.add(
+            "keyboard-keys",
+            "animate__animated",
+            "animate__tada"
+        );
 
     //Append the buttons that will be created with the createBtnKeys function to the keysContainer
         this.elements.keysContainer.appendChild(this.createBtnKeys());
-
+;
     //The keys element will be equal to all the elements within the keysContainer with the class individualKey
         this.elements.keys =this.elements.keysContainer.querySelectorAll(".individualKey");
 
@@ -201,6 +210,8 @@ const Keyboard = {
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.remove("hidden-keyboard");
+        this.element.main.classList.add( "animate__animated", "animate__zoomIn");
+        this.element.keysContainer.classList.add("animate__animated", "animate__tada")
     },
 
     //FUNCTION FOR WHEN THE KEYBOARD CLOSES
@@ -210,6 +221,11 @@ const Keyboard = {
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.add("hidden-keyboard");
+        this.elements.main.classList.remove(
+          "animate__zoomIn",
+          "animate__animated",
+        );
+        this.elements.keysContainer.classList.remove("animate__animated", "animate__tada")
     },
 };
 

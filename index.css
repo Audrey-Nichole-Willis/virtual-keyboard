@@ -31,6 +31,12 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
     background-color:black;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    padding:1%;
 }
 ol, ul {
 	list-style: none;
@@ -50,24 +56,70 @@ table {
 .page-header{
 	display:flex;
 	flex-direction:column;
+    width:90%;
 }
 .title{
     color:white;
-    font-size:2rem;
+    font-size:3rem;
     text-align:center;
+    margin:1%;
+}
+.title span:nth-child(1){
+color:#FD8C00
+}
+.title span:nth-child(2){
+ color:  #FFE500
+}
+.title span:nth-child(3){
+    color:#119F0B;
+}
+.title span:nth-child(4){
+    color:#0644B3;
+}
+.title span:nth-child(5){
+    color:#C22EDC;
+}
+.title span:nth-child(6){
+    color:#FD8C00;
+}
+.title span:nth-child(7){
+    color:#FFE500;
+}
+.title span:nth-child(8){
+    color:#119F0B;
+}
+.title span:nth-child(9){
+    color:#0644B3;
+}
+.title span:nth-child(10){
+    color:#C22EDC;
+}
+.title span:nth-child(11){
+    color:#FD8C00;
+}
+.title span:nth-child(12){
+    color:#FFE500;
+}
+.title span:nth-child(13){
+    color:#119f0b;
 }
 .main{
 display:flex;
 align-items:center;
 justify-content:center;
+width:90%;
 }
 textarea{
-    width:50%;
-    height:30vh;
+    width:60%;
+    height:25vh;
     margin:3% 0;
+    outline:none;
+    border:3px solid yellow;
+    
 }
 .hidden-keyboard{
     display:none;
+    height:1px;
 }
 .keyboard{
 	margin:auto;
@@ -84,8 +136,14 @@ textarea{
 	border-radius:10px;
     position:sticky;
 }
+.keyboard  .animate__zoomIn{
+    animation-duration: 1.2s;
+}
 .keyboard-keys{
     text-align:center;
+}
+ .animate__tada{
+    animation-delay: 1.3s;
 }
 .individualKey{
     height:48px;
